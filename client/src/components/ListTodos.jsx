@@ -1,36 +1,62 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import InputTodo from './InputTodo';
+import EditTodo from './EditTodo';
 
 const ListTodos = () => {
+  const [todos, setTodos] = useState([]);
+
+  const deleteTodo = async (id) => {
+    try {
+      const deleteTodo = await fetch(`http://localhost:5000/todos/${id}`, {
+        method: 'DELETE'
+      });
+
+      setTodos(todos.filter(todo => todo.todo_id !== id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  const getTodos = async () => {
+    try {
+      // Por padrão o fetch regorna um método GET.
+      const response = await fetch('http://localhost:5000/todos');
+      // É necessário fazer um parsing para JSON.
+      const jsonData = await response.json();
+      // Modificando o valor do estado. O estado receberá os dados que virão da requisição GET.
+      setTodos(jsonData.data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
   return (
     <Fragment>
-      <table class="table">
+      <table className="table mt-5 text-center">
         <thead>
           <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-          </tr>
-          <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-          </tr>
-          <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-          </tr>
+          {todos.map(todo => (
+            <tr key={todo.todo_id}>
+              <td>{todo.description}</td>
+              <td><EditTodo todo={todo}></EditTodo></td>
+              <td>
+                <button className="btn btn-danger" onClick={() => deleteTodo(todo.todo_id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-    </Fragment>
+    </Fragment >
   );
 }
 
