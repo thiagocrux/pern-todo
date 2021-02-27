@@ -1,6 +1,6 @@
-# Natours - Landing Page
+# PERN Todo
 
-This project is a todo list by FreeCodeCamp tutored on their channel on YouTube created using PostgreSQL, Express, ReactJS and Node JS. The tutorial can be found ["here"](https://www.youtube.com/watch?v=ldYcgPKEZC8&pbjreload=101).
+This project is a todo list by FreeCodeCamp tutored on their channel on YouTube created using PostgreSQL, Express, ReactJS and Node JS. The tutorial can be found <ins>[here](https://www.youtube.com/watch?v=ldYcgPKEZC8&pbjreload=101)</ins>.
 
 ## :toolbox: Built With
 
